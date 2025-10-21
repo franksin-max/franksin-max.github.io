@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GYM MOTIVATION - Tu Fuerza Interior</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 50px;
+            animation: fadeInDown 1s ease-out;
+        }
+
+        .header h1 {
+            font-size: 3.5rem;
+            color: white;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+
+        .header p {
+            font-size: 1.2rem;
+            color: rgba(255,255,255,0.9);
+            font-style: italic;
+        }
+
+        .motivation-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+            margin-bottom: 50px;
+        }
+
+        .motivation-card {
+            background: rgba(20,20,30,0.6);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(100,100,150,0.3);
+            border-radius: 20px;
+            padding: 30px;
+            text-align: center;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .motivation-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255,255,255,0.1), transparent);
+            transform: rotate(45deg);
+            transition: all 0.6s;
+            opacity: 0;
+        }
+
+        .motivation-card:hover::before {
+            opacity: 1;
+            animation: shine 0.6s ease-in-out;
+        }
+
+        .motivation-card:hover {
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+        }
+
+        .card-icon {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            display: block;
+        }
+
+        .motivation-card h3 {
+            color: white;
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            font-weight: bold;
+        }
+
+        .motivation-card p {
+            color: rgba(255,255,255,0.9);
+            font-size: 1.1rem;
+            line-height: 1.6;
+            position: relative;
+            z-index: 1;
+        }
+
+        .quote-section {
+            text-align: center;
+            background: rgba(10,10,15,0.8);
+            border-radius: 20px;
+            padding: 40px;
+            margin-bottom: 50px;
+            border-left: 5px solid #ff6b6b;
+            border: 1px solid rgba(100,100,150,0.3);
+        }
+
+        .quote-text {
+            font-size: 2rem;
+            color: white;
+            font-style: italic;
+            margin-bottom: 20px;
+            font-weight: 300;
+        }
+
+        .quote-author {
+            font-size: 1.2rem;
+            color: #ff6b6b;
+            font-weight: bold;
+        }
+
+        .action-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+            margin-bottom: 50px;
+        }
+
+        .btn {
+            background: linear-gradient(45deg, #ff6b6b, #ee5a52);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(255, 107, 107, 0.4);
+        }
+
+        .btn:active {
+            transform: translateY(0);
+        }
+
+        .progress-section {
+            background: rgba(20,20,30,0.6);
+            border: 1px solid rgba(100,100,150,0.3);
+            border-radius: 20px;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .progress-title {
+            color: white;
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+        }
+
+        .progress-bar {
+            background: rgba(50,50,70,0.4);
+            border-radius: 10px;
+            height: 20px;
+            overflow: hidden;
+            margin-bottom: 10px;
+        }
+
+        .progress-fill {
+            background: linear-gradient(90deg, #4ecdc4, #44a08d);
+            height: 100%;
+            border-radius: 10px;
+            transition: width 2s ease-in-out;
+            animation: progressAnimation 3s ease-in-out infinite;
+        }
+
+        .floating-elements {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .floating-element {
+            position: absolute;
+            background: rgba(100,100,150,0.1);
+            border-radius: 50%;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes shine {
+            0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
+            100% { transform: translateX(100%) translateY(100%) rotate(45deg); }
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(180deg); }
+        }
+
+        @keyframes progressAnimation {
+            0%, 100% { width: 0%; }
+            50% { width: 85%; }
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2.5rem;
+            }
+            
+            .motivation-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+            
+            .quote-text {
+                font-size: 1.5rem;
+            }
+            
+            .action-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="floating-elements" id="floatingElements"></div>
+    
+    <div class="container">
+        <header class="header">
+            <h1>💪 GYM MOTIVATION</h1>
+            <p>Transforma tu cuerpo, transforma tu vida</p>
+        </header>
+
+        <div class="motivation-grid">
+            <div class="motivation-card" onclick="changeQuote()">
+                <span class="card-icon">🔥</span>
+                <h3>Disciplina</h3>
+                <p>La disciplina es el puente entre las metas y los logros. Cada día que entrenas, estás construyendo la versión más fuerte de ti mismo.</p>
+            </div>
+
+            <div class="motivation-card" onclick="changeQuote()">
+                <span class="card-icon">⚡</span>
+                <h3>Fuerza Mental</h3>
+                <p>Tu mente es tu músculo más poderoso. Cuando piensas que no puedes más, ahí es donde realmente comienza tu entrenamiento.</p>
+            </div>
+
+            <div class="motivation-card" onclick="changeQuote()">
+                <span class="card-icon">🎯</span>
+                <h3>Constancia</h3>
+                <p>Los resultados no vienen de lo que haces ocasionalmente, sino de lo que haces consistentemente. Cada rep cuenta.</p>
+            </div>
+
+            <div class="motivation-card" onclick="changeQuote()">
+                <span class="card-icon">🏆</span>
+                <h3>Victoria</h3>
+                <p>No compites contra otros, compites contra quien eras ayer. Cada sesión de gym es una victoria sobre tu yo anterior.</p>
+            </div>
+
+            <div class="motivation-card" onclick="changeQuote()">
+                <span class="card-icon">💎</span>
+                <h3>Transformación</h3>
+                <p>El dolor que sientes hoy será la fuerza que sientes mañana. Cada gota de sudor es una inversión en tu futuro yo.</p>
+            </div>
+
+            <div class="motivation-card" onclick="changeQuote()">
+                <span class="card-icon">🚀</span>
+                <h3>Superación</h3>
+                <p>Los límites existen solo en tu mente. Cada vez que los rompes en el gym, los rompes en la vida real.</p>
+            </div>
+        </div>
+
+        <section class="quote-section">
+            <div class="quote-text" id="motivationalQuote">"El éxito no se logra solo con cualidades especiales. Es sobre todo un trabajo de constancia, de método y de organización."</div>
+            <div class="quote-author" id="quoteAuthor">- J.P. Sergent</div>
+        </section>
+
+        <div class="action-buttons">
+            <button class="btn" onclick="generateWorkout()">💪 Rutina del Día</button>
+            <button class="btn" onclick="showMotivation()">⚡ Motivación Extra</button>
+            <button class="btn" onclick="updateProgress()">📈 Mi Progreso</button>
+        </div>
+
+        <section class="progress-section">
+            <h2 class="progress-title">Tu Progreso de Hoy</h2>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressBar"></div>
+            </div>
+            <p style="color: white; margin-top: 10px;">¡Sigue así, campeón! 🔥</p>
+        </section>
+    </div>
+
+    <script>
+        const quotes = [
+            { text: "El éxito no se logra solo con cualidades especiales. Es sobre todo un trabajo de constancia, de método y de organización.", author: "J.P. Sergent" },
+            { text: "No se trata de ser perfecto, se trata de ser mejor que ayer.", author: "Atleta Anónimo" },
+            { text: "Tu cuerpo puede hacerlo. Es tu mente la que necesitas convencer.", author: "Motivador Fitness" },
+            { text: "El dolor es temporal, pero rendirse dura para siempre.", author: "Lance Armstrong" },
+            { text: "No cuentes los días, haz que los días cuenten.", author: "Muhammad Ali" },
+            { text: "La fuerza no viene de la capacidad física, viene de una voluntad indomable.", author: "Mahatma Gandhi" },
+            { text: "Si quieres algo que nunca has tenido, debes hacer algo que nunca has hecho.", author: "Thomas Jefferson" },
+            { text: "El único mal entrenamiento es el que no hiciste.", author: "Filosofía del Gym" }
+        ];
+
+        const workouts = [
+            "💪 Push-ups: 3 series de 15 repeticiones",
+            "🏋 Squats: 4 series de 12 repeticiones", 
+            "🔥 Burpees: 3 series de 10 repeticiones",
+            "⚡ Plancha: 3 series de 30 segundos",
+            "🎯 Mountain Climbers: 3 series de 20 repeticiones",
+            "💎 Jumping Jacks: 4 series de 25 repeticiones"
+        ];
+
+        const motivationalMessages = [
+            "🔥 ¡Eres imparable! ¡Sigue adelante!",
+            "⚡ ¡Tu fuerza interior es infinita!",
+            "💪 ¡Cada repetición te acerca a tu meta!",
+            "🚀 ¡Hoy es el día de romper tus límites!",
+            "🏆 ¡Eres tu única competencia!",
+            "💎 ¡Transforma el dolor en poder!"
+        ];
+
+        function changeQuote() {
+            const randomQuote = quotes[Math.floor(Math.random() * quotes.length)];
+            document.getElementById('motivationalQuote').textContent = "${randomQuote.text}";
+            document.getElementById('quoteAuthor').textContent = - ${randomQuote.author};
+        }
+
+        function generateWorkout() {
+            const randomWorkout = workouts[Math.floor(Math.random() * workouts.length)];
+            alert(¡Tu ejercicio recomendado!\n\n${randomWorkout}\n\n¡Dale con todo! 🔥);
+        }
+
+        function showMotivation() {
+            const randomMessage = motivationalMessages[Math.floor(Math.random() * motivationalMessages.length)];
+            alert(randomMessage);
+        }
+
+        function updateProgress() {
+            const progressBar = document.getElementById('progressBar');
+            const randomProgress = Math.floor(Math.random() * 100) + 1;
+            progressBar.style.width = randomProgress + '%';
+            alert(¡Progreso actualizado!\n\nHas completado el ${randomProgress}% de tu meta diaria.\n\n¡Sigue así! 💪);
+        }
+
+        // Crear elementos flotantes
+        function createFloatingElements() {
+            const container = document.getElementById('floatingElements');
+            for (let i = 0; i < 6; i++) {
+                const element = document.createElement('div');
+                element.className = 'floating-element';
+                element.style.left = Math.random() * 100 + '%';
+                element.style.top = Math.random() * 100 + '%';
+                element.style.width = element.style.height = (Math.random() * 60 + 20) + 'px';
+                element.style.animationDelay = Math.random() * 6 + 's';
+                element.style.animationDuration = (Math.random() * 3 + 4) + 's';
+                container.appendChild(element);
+            }
+        }
+
+        // Cambiar quotes automáticamente cada 10 segundos
+        setInterval(changeQuote, 10000);
+
+        // Inicializar elementos flotantes
+        createFloatingElements();
+
+        // Animación inicial de la barra de progreso
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                document.getElementById('progressBar').style.width = '75%';
+            }, 1000);
+        });
+    </script>
+</body>
+</html>
